@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Todo,TodosStatus } from './todos.model';
 import { TodosService } from './todos.service';
 import { v4 as uuidv4 } from 'uuid';
+import { CreateTodoDto } from './dto/create-todo-dto';
 
 @Controller('todos')
 export class TodosController {
@@ -11,11 +12,15 @@ export class TodosController {
     getAllTodos(): Todo[] {
         return this.todosService.getAllTodos();
     }
+
+    @Get('/:id')
+    getTodoById(@Param('id') id: string ): Todo {
+        return this.todosService.getTodoById(id)
+    }
+    
     @Post()
     createTodo(
-        @Body('title') title: string,
-        @Body('description')  description: string 
-        ): Todo {
-        return this.todosService.createTodo(title, description)
+        @Body() createTodoDto: CreateTodoDto,): Todo {
+        return this.todosService.createTodo(createTodoDto)
     }
 }

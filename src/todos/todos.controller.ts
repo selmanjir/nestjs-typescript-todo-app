@@ -1,15 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { Todo,TodosStatus } from './todos.model';
 import { TodosService } from './todos.service';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateTodoDto } from './dto/create-todo-dto';
+import { GetTodosFilterDto } from './dto/get-todos-filter.dto';
 
 @Controller('todos')
 export class TodosController {
     constructor(private todosService: TodosService) {}
 
     @Get()
-    getAllTodos(): Todo[] {
+    getAllTodos(@Query() getTodosFilterDto: GetTodosFilterDto): Todo[] {
+        if (Object.keys(getTodosFilterDto).length) {
+            return this.todosService.getTodosWithFilter(getTodosFilterDto)
+        }
+        
         return this.todosService.getAllTodos();
     }
 

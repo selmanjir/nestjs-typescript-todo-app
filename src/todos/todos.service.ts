@@ -6,7 +6,8 @@ import { CreateTodoDto } from './dto/create-todo-dto';
 @Injectable()
 export class TodosService {
     private todos: Todo[] = [];
-    getAllTodos() {
+
+    getAllTodos(): Todo[] {
         return this.todos;
     }
     createTodo( createTodoDto: CreateTodoDto ): Todo {
@@ -24,13 +25,16 @@ export class TodosService {
 
         return todo;
     }
-    getTodoById (id: string) {
+    getTodoById (id: string): Todo {
         return this.todos.find((todo) => todo.id === id);
     }
-    updateTodoStatus(id: string, status: TodosStatus) {
+    updateTodoStatus(id: string, status: TodosStatus): Todo{
         const todo = this.getTodoById(id)
         todo.status = status
 
         return todo;
+    }
+    deleteTodo(id: string): void {
+        this.todos = this.todos.filter((todo) => todo.id !== id)
     }
 }

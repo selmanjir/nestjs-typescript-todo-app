@@ -27,4 +27,10 @@ export class TodosService {
     getTodoById (id: string) {
         return this.todos.find((todo) => todo.id === id);
     }
+    updateTodoStatus(id: string, status: TodosStatus) {
+        const todo = this.getTodoById(id)
+        todo.status = status
+
+        return todo;
+    }
 }
